@@ -2,7 +2,7 @@ class Matrix():
     def __init__(self, n, m):
         self.n = n
         self.m = m
-        self.values = [[0] * n for _x in range(m)]
+        self.values = [ [0] * n for _x in range(m) ]
 
     @classmethod
     def fromList(self, list):
@@ -10,9 +10,18 @@ class Matrix():
         for i in list:
             if len(i) != n:
                 return None
-        new = Matrix(len(list), len(list[0]))
+        new = Matrix(m=len(list), n=len(list[0]))
         new.values = list
         return new
+    def __eq__(self, other):
+        if self.m == other.m and self.n == other.n:
+            for i in range(self.m):
+                for j in range(self.n):
+                    if self[i,j] != other[i,j]:
+                        return False
+            return True
+        else:
+            return False
 
     def __getitem__(self, tup):
         y, x = tup
@@ -69,17 +78,17 @@ class Matrix():
         return new
 
     def scalar(self, scalar):
-        new = Matrix(self.m, self.n)
+        new = Matrix(m=self.m, n=self.n)
         for i in range(self.m):
             for j in range(self.n):
                 new[i,j] = self[i,j] * scalar
         return new
 
     def transpose(self):
-        new = Matrix(n=self.n,m=self.m)
-        for i in range(self.m):
-            for j in range(self.n):
-                new[j,i] = self[j,i]
+        new = Matrix(n=self.m, m=self.n)
+        for j in range(new.m):
+            for i in range(new.n):
+                new[j,i] = self[i,j]
         return new
 
 if __name__ == '__main__':
